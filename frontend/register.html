@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>notesapp</title>
+</head>
+<body>
+    <nav>
+        <a href="register.html">Register</a>
+        <a href="login.html">Login</a>
+        <a href="notes.html">notes</a>
+        <a href="addnotes.html">addNotes</a>
+    </nav>
+    <form action="" id="registerform">
+        <input id="name" type="text" placeholder="name">
+        <input id="email" type="text" placeholder="email">
+        <input id="password" type="text" placeholder="password">
+        <input id="age" type="number" placeholder="age">
+        <input type="submit" value="register">
+    </form>
+</body>
+<script>
+   const register=document.getElementById("registerform")
+   const name =document.getElementById("name")
+   const email =document.getElementById("email")
+   const password =document.getElementById("password")
+   const age =document.getElementById("age")
+   register.addEventListener("submit",(e)=>{
+     e.preventDefault()
+     let obj={
+        Name:name.value,
+        email:email.value,
+        password:password.value,
+        age:age.value
+     }
+     console.log(obj)
+     fetch("http://localhost:8080/users/register",{
+        method:"POST",
+        headers:{
+            "content-type":"application/json"
+        },
+        body: JSON.stringify(obj)
+     })
+     .then(res=>res.json())
+     .then(res=>console.log(res))
+     .catch(err=>console.log(err))
+   })
+</script>
+</html>

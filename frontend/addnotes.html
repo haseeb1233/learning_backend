@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <a href="register.html">Register</a>
+        <a href="login.html">Login</a>
+        <a href="notes.html">notes</a>
+        <a href="addnotes.html">addNotes</a>
+    </nav>
+    <form action="" id="add">
+        <input id="title" type="text" placeholder="title">
+        <input id="sub" type="text" placeholder="sub">
+        <input id="body" type="text" placeholder="body">
+        <input type="submit" value="addNotes">
+    </form>
+</body>
+<script>
+   const add = document.getElementById("add")
+   add.addEventListener("submit",(e)=>{
+    e.preventDefault()
+    let obj={
+    title:document.getElementById("title").value,
+    sub:document.getElementById("sub").value,
+    body:document.getElementById("body").value
+}
+console.log(obj)
+// console.log(localStorage.getItem("token"))
+fetch("http://localhost:8080/notes/add",{
+        method:"POST",
+        headers:{
+            "Content-type":"application/json",
+            "authorization":localStorage.getItem("token")
+        },
+        body: JSON.stringify(obj)
+     })
+     .then(res=>res.json())
+     .then((res)=>{
+        console.log(res)
+     })
+     .catch(err=>console.log(err))
+   
+
+   })
+</script>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <a href="register.html">Register</a>
+        <a href="login.html">Login</a>
+        <a href="notes.html">notes</a>
+        <a href="addnotes.html">addNotes</a>
+    </nav>
+    <div>notes</div>
+    <div id="notes"></div>
+</body>
+<script>
+    fetch("http://localhost:8080/notes/",{
+        method:"GET",
+        headers:{
+            "authorization":localStorage.getItem("token")
+        }
+    })
+    .then(res=> res.json())
+    .then((res) =>{
+        console.log(res)
+     res.forEach((ele) => {
+        const div1= document.createElement("div")
+          div1.innerText=`title:${ele.title }`
+          const div2= document.createElement("div")
+          div2.innerText=`sub:${ele.sub}`
+          const div3= document.createElement("div")
+          div3.innerText=`body:${ele.body}`
+          const Delete =document.createElement("button")
+          Delete.innerText="Delete"
+          Delete.addEventListener("click",(e)=>{
+            console.log(ele._id)
+             fetch(`http://localhost:8080/notes/delete/${ele._id}`,{
+                method:"DELETE",
+              headers:{
+            "authorization":localStorage.getItem("token")
+            }
+             })
+          })
+
+       document.getElementById("notes").append(div1,div2,div3,Delete)
+     });
+    })
+</script>
+</html>
